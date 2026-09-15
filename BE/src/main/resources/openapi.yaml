@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: Community Giving API
+  version: 1.0.0
+  description: Versioned API for member contributions, pastors, elections, and donation receipts.
+servers:
+  - url: /api/v1
+security:
+  - sessionCookie: []
+paths:
+  /csrf: {get: {summary: Get CSRF token}}
+  /login: {post: {summary: Sign in with username and password}}
+  /logout: {post: {summary: End session}}
+  /me: {get: {summary: Current authenticated account}}
+  /masters: {get: {summary: Master dropdown values}}
+  /donations: {get: {summary: Contributions visible to current account}}
+  /donations/{id}/receipt: {get: {summary: Download a PDF donation receipt, parameters: [{name: id, in: path, required: true, schema: {type: integer, format: int64}}]}}
+  /elections: {get: {summary: Elections visible to current account}}
+  /elections/{id}/votes: {post: {summary: Cast one attributable vote}}
+  /admin/members: {get: {summary: List members}, post: {summary: Create member account}}
+  /admin/pastors: {get: {summary: List pastors}, post: {summary: Create pastor}}
+  /admin/donations: {post: {summary: Record contribution}}
+  /admin/elections: {post: {summary: Create election}}
+  /admin/elections/{id}/candidates: {post: {summary: Nominate candidate}}
+components:
+  securitySchemes:
+    sessionCookie: {type: apiKey, in: cookie, name: JSESSIONID}

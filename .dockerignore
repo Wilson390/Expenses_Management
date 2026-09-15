@@ -1,0 +1,15 @@
+.git
+node_modules
+.angular
+dist
+out-tsc
+BE/target
+BE/data
+.env
+.env.*
+.runtime
+*.xlsx
+*.jpeg
+*.jpg
+*.png
+.DS_Store

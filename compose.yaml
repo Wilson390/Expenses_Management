@@ -1,0 +1,70 @@
+name: em
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: giving
+      POSTGRES_USER: giving
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Run ./run.sh to create local credentials}
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U giving -d giving']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+  backend:
+    image: em-backend:local
+    build:
+      context: .
+      dockerfile: BE/Dockerfile
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/giving
+      DB_USER: giving
+      DB_PASSWORD: ${DB_PASSWORD:?Run ./run.sh first}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Run ./run.sh first}
+      UPLOAD_DIR: /app/uploads
+      TZ: Asia/Kolkata
+    volumes:
+      - uploads-data:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+  admin:
+    image: em-admin:local
+    build:
+      context: .
+      dockerfile: deploy/ui.Dockerfile
+      args:
+        PORTAL: BEUI
+    ports:
+      - '127.0.0.1:4200:8080'
+    volumes:
+      - uploads-data:/usr/share/nginx/html/uploads:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+  member:
+    image: em-member:local
+    build:
+      context: .
+      dockerfile: deploy/ui.Dockerfile
+      args:
+        PORTAL: FEUI
+    ports:
+      - '127.0.0.1:4201:8080'
+    volumes:
+      - uploads-data:/usr/share/nginx/html/uploads:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  postgres-data:
+  uploads-data:

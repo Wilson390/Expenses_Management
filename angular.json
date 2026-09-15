@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "projects": {
+    "BEUI": {
+      "projectType": "application",
+      "root": "BEUI",
+      "sourceRoot": "BEUI/src",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "BEUI/src/main.ts",
+            "index": "BEUI/src/index.html",
+            "tsConfig": "BEUI/tsconfig.app.json",
+            "styles": [
+              "shared/styles.css"
+            ],
+            "outputPath": "dist/BEUI",
+            "assets": [
+              "BEUI/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "all",
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": false
+              }
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "options": {
+            "buildTarget": "BEUI:build",
+            "proxyConfig": "proxy.json"
+          }
+        }
+      }
+    },
+    "FEUI": {
+      "projectType": "application",
+      "root": "FEUI",
+      "sourceRoot": "FEUI/src",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "FEUI/src/main.ts",
+            "index": "FEUI/src/index.html",
+            "tsConfig": "FEUI/tsconfig.app.json",
+            "styles": [
+              "shared/styles.css"
+            ],
+            "outputPath": "dist/FEUI",
+            "assets": [
+              "FEUI/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "all",
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": false
+              }
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "options": {
+            "buildTarget": "FEUI:build",
+            "proxyConfig": "proxy.json"
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

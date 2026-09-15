@@ -1,0 +1,1 @@
+{"extends": "../tsconfig.json", "compilerOptions": {"outDir": "../out-tsc/BEUI"}, "files": ["src/main.ts"], "include": ["../shared/**/*.ts"]}

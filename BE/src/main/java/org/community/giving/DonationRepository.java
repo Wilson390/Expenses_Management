@@ -1,0 +1,3 @@
+package org.community.giving;
+import org.springframework.data.jpa.repository.JpaRepository;
+public interface DonationRepository extends JpaRepository<Donation,Long> { java.util.List<Donation> findByMemberIdOrderByReceivedDateDesc(Long memberId); java.util.List<Donation> findAllByOrderByReceivedDateDesc(); java.util.List<Donation> findByReceivedDateAndPaymentType(java.time.LocalDate receivedDate,String paymentType); }
